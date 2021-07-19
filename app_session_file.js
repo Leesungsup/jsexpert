@@ -3,6 +3,7 @@ var session=require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 var bodyParser=require('body-parser');
 var app=express();
+var md5=require('md5');
 app.use(session({
   secret:'asfgagaagad123',
   resave:false,
@@ -43,18 +44,21 @@ app.get('/welcome',function(req,res){
     `);
   }
 });
+var salt="3r1ounonowagn";
+var pwd="111";
+var pass=md5(pwd+salt);
 app.post('/auth/login',function(req,res){
   var user={
     username:'egoing',
-    password:'111',
+    password: pass,
     displayName:'Egoing'
   };
   var uname=req.body.username;
   var pwd=req.body.password;
-  if(uname===user.username && pwd===user.password){
+  if(uname===user.username && md5(pwd+salt)===user.password){
     req.session.displayName=user.displayName;
     req.session.save(function(){
-      res.redirect('\welcome');
+      res.redirect('/welcome');
     });
   }else{
     res.send('Who are you<a href="/auth/login">login</a>');
