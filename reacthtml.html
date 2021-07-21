@@ -1,100 +1,184 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>간단한 지도 표시하기</title>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uzlzuhd2pa"></script>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=YOUR_CLIENT_ID&submodules=panorama"></script>
+    <script type="text/javascript"
+        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uzlzuhd2pa"></script>
+    <script type="text/javascript"
+        src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=YOUR_CLIENT_ID&submodules=panorama"></script>
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+    <script src="/node_modules/requirejs/require.js"></script>
 </head>
+
 <body>
-<div id="map" style="width:100%;height:400px;"></div>
-<div id="pano" style="width:100%;height:400px;"></div>
-<script>
-var map = new naver.maps.Map('map', {
-    center: new naver.maps.LatLng(37.5666805, 126.9784147),
-    zoom: 13,
-    minZoom: 6,
-    mapTypeId: naver.maps.MapTypeId.HYBRID,
-    zoomControl: true,
-    zoomControlOptions: {
-        position: naver.maps.Position.TOP_RIGHT
-    },
-    mapDataControl: false,
-    logoControlOptions: {
-        position: naver.maps.Position.LEFT_BOTTOM
-    },
-    disableKineticPan: false
-});
-naver.maps.Event.once(map, 'init_stylemap', function() {
-    map.setOptions({
-        mapTypeControl: true,
-        scaleControl: false,
-        logoControl: false
-    });
-    
-});
-var pano = null;
-naver.maps.onJSContentLoaded = function() {
-    // 아이디 혹은 지도 좌표로 파노라마를 표시할 수 있습니다.
-    pano = new naver.maps.Panorama("pano", {
-        position: new naver.maps.LatLng(37.3599605, 127.1058814),
-        pov: {
-            pan: -133,
-            tilt: 0,
-            fov: 100
-        }
-    });
+    <div id="map" style="width:100%;height:400px;"></div>
+    <div id="pano" style="width:100%;height:400px;"></div>
+    <script>
+        const func = require(['fs']);
+        var HOME_PATH = window.HOME_PATH || '.';
+        console.log(HOME_PATH);
+        var lat = 37.3595704;
+        var long = 127.105399;
+        var position = new naver.maps.LatLng(lat, long);
+        var polylinePath = [
+            new naver.maps.LatLng(37.4526437, 126.49236),
+            new naver.maps.LatLng(37.4768068, 126.4847975),
+            new naver.maps.LatLng(37.4988237, 126.4960839),
+            new naver.maps.LatLng(37.5176422, 126.5392841),
+            new naver.maps.LatLng(37.5398154, 126.5708743),
+            new naver.maps.LatLng(37.5457857, 126.5968815),
+            new naver.maps.LatLng(37.5646413, 126.6502792),
+            new naver.maps.LatLng(37.5708896, 126.7197823),
+            new naver.maps.LatLng(37.5710499, 126.7444216),
+            new naver.maps.LatLng(37.5770001, 126.7733532),
+            new naver.maps.LatLng(37.5817724, 126.799401),
+            new naver.maps.LatLng(37.5841817, 126.8167752),
+            new naver.maps.LatLng(37.5808037, 126.8313027),
+            new naver.maps.LatLng(37.5716637, 126.8473288),
+            new naver.maps.LatLng(37.56136, 126.8619116),
+            new naver.maps.LatLng(37.5487926, 126.8852035),
+            new naver.maps.LatLng(37.540747, 126.8910651),
+            new naver.maps.LatLng(37.5303713, 126.8925982),
+            new naver.maps.LatLng(37.5164746, 126.8825719),
+            new naver.maps.LatLng(37.5002697, 126.8725686),
+            new naver.maps.LatLng(37.4933399, 126.8711786),
+            new naver.maps.LatLng(37.4760577, 126.8756663),
+            new naver.maps.LatLng(37.4634352, 126.8887979),
+            new naver.maps.LatLng(37.448467, 126.8947082),
+            new naver.maps.LatLng(37.4346374, 126.8977132),
+            new naver.maps.LatLng(37.4242394, 126.8949032),
+            new naver.maps.LatLng(37.4033979, 126.8806084),
+            new naver.maps.LatLng(37.3848775, 126.8691937),
+            new naver.maps.LatLng(37.371033, 126.8693097),
+            new naver.maps.LatLng(37.3724101, 126.9126676),
+            new naver.maps.LatLng(37.3830471, 126.9660813),
+            new naver.maps.LatLng(37.3807849, 126.9762181),
+            new naver.maps.LatLng(37.3971504, 127.0267188),
+            new naver.maps.LatLng(37.3961676, 127.0715545),
+            new naver.maps.LatLng(37.3730718, 127.0659032),
+            new naver.maps.LatLng(37.35114, 127.063139),
+            new naver.maps.LatLng(37.3268898, 127.0575003),
+            new naver.maps.LatLng(37.3210994, 127.0517556),
+            new naver.maps.LatLng(37.3084352, 127.0590529),
+            new naver.maps.LatLng(37.2877049, 127.0692822),
+            new naver.maps.LatLng(37.2762087, 127.0808982)
+        ];
+        var markerOptions = {
+            position: position,
+            map: map,
+            icon: {
+                url: HOME_PATH + '/img/example/pin_default.png',
+                size: new naver.maps.Size(22, 35),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(11, 35)
+            },
+            shape: {
+                coords: [11, 0, 9, 0, 6, 1, 4, 2, 2, 4,
+                    0, 8, 0, 12, 1, 14, 2, 16, 5, 19,
+                    5, 20, 6, 23, 8, 26, 9, 30, 9, 34,
+                    13, 34, 13, 30, 14, 26, 16, 23, 17, 20,
+                    17, 19, 20, 16, 21, 14, 22, 12, 22, 12,
+                    22, 8, 20, 4, 18, 2, 16, 1, 13, 0],
+                type: 'poly'
+            }
+        };
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5666805, 126.9784147),
+            zoom: 13,
+            minZoom: 6,
+            mapTypeId: naver.maps.MapTypeId.HYBRID,
+            zoomControl: true,
+            zoomControlOptions: {
+                position: naver.maps.Position.TOP_RIGHT
+            },
+            mapDataControl: false,
+            logoControlOptions: {
+                position: naver.maps.Position.LEFT_BOTTOM
+            },
+            disableKineticPan: false
+        });
+        var polyline = new naver.maps.Polyline({
+            path: polylinePath,      //선 위치 변수배열
+            strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
+            strokeOpacity: 0.8, //선 투명도 0 ~ 1
+            strokeWeight: 6,   //선 두께
+            map: map           //오버레이할 지도
+        });
+        var marker = new naver.maps.Marker(markerOptions);
+        naver.maps.Event.once(map, 'init_stylemap', function () {
+            map.setOptions({
+                mapTypeControl: true,
+                scaleControl: false,
+                logoControl: false
+            });
+        });
 
-    // 파노라마 위치가 갱신되었을 때 발생하는 이벤트를 받아 지도의 중심 위치를 갱신합니다.
-    naver.maps.Event.addListener(pano, 'pano_changed', function() {
-        var latlng = pano.getPosition();
+        var pano = null;
+        naver.maps.onJSContentLoaded = function () {
+            // 아이디 혹은 지도 좌표로 파노라마를 표시할 수 있습니다.
+            pano = new naver.maps.Panorama("pano", {
+                position: new naver.maps.LatLng(37.3599605, 127.1058814),
+                pov: {
+                    pan: -133,
+                    tilt: 0,
+                    fov: 100
+                }
+            });
 
-        if (!latlng.equals(map.getCenter())) {
-            map.setCenter(latlng);
-        }
-    });
-};
+            // 파노라마 위치가 갱신되었을 때 발생하는 이벤트를 받아 지도의 중심 위치를 갱신합니다.
+            naver.maps.Event.addListener(pano, 'pano_changed', function () {
+                var latlng = pano.getPosition();
 
-// 거리뷰 레이어를 생성합니다.
-var streetLayer = new naver.maps.StreetLayer();
-naver.maps.Event.once(map, 'init_stylemap', function() {
-    streetLayer.setMap(map);
-});
+                if (!latlng.equals(map.getCenter())) {
+                    map.setCenter(latlng);
+                }
+            });
+        };
 
-// 거리뷰 버튼에 이벤트를 바인딩합니다.
-var btn = $('#street');
-btn.on("click", function(e) {
-    e.preventDefault();
+        // 거리뷰 레이어를 생성합니다.
+        var streetLayer = new naver.maps.StreetLayer();
+        naver.maps.Event.once(map, 'init_stylemap', function () {
+            streetLayer.setMap(map);
+        });
 
-    // 거리뷰 레이어가 지도 위에 있으면 거리뷰 레이어를 지도에서 제거하고,
-    // 거리뷰 레이어가 지도 위에 없으면 거리뷰 레이어를 지도에 추가합니다.
-    if (streetLayer.getMap()) {
-        streetLayer.setMap(null);
-    } else {
-        streetLayer.setMap(map);
-    }
-});
+        // 거리뷰 버튼에 이벤트를 바인딩합니다.
+        var btn = $('#street');
+        btn.on("click", function (e) {
+            e.preventDefault();
 
-// 거리뷰 레이어가 변경되면 발생하는 이벤트를 지도로부터 받아 버튼의 상태를 변경합니다.
-naver.maps.Event.addListener(map, 'streetLayer_changed', function(streetLayer) {
-    if (streetLayer) {
-        btn.addClass('control-on');
-    } else {
-        btn.removeClass('control-on');
-    }
-});
+            // 거리뷰 레이어가 지도 위에 있으면 거리뷰 레이어를 지도에서 제거하고,
+            // 거리뷰 레이어가 지도 위에 없으면 거리뷰 레이어를 지도에 추가합니다.
+            if (streetLayer.getMap()) {
+                streetLayer.setMap(null);
+            } else {
+                streetLayer.setMap(map);
+            }
+        });
 
-// 지도를 클릭했을 때 발생하는 이벤트를 받아 파노라마 위치를 갱신합니다. 이때 거리뷰 레이어가 있을 때만 갱신하도록 합니다.
-naver.maps.Event.addListener(map, 'click', function(e) {
-    if (streetLayer.getMap()) {
-        var latlng = e.coord;
+        // 거리뷰 레이어가 변경되면 발생하는 이벤트를 지도로부터 받아 버튼의 상태를 변경합니다.
+        naver.maps.Event.addListener(map, 'streetLayer_changed', function (streetLayer) {
+            if (streetLayer) {
+                btn.addClass('control-on');
+            } else {
+                btn.removeClass('control-on');
+            }
+        });
 
-        // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
-        pano.setPosition(latlng);
-    }
-});
-</script>
+        // 지도를 클릭했을 때 발생하는 이벤트를 받아 파노라마 위치를 갱신합니다. 이때 거리뷰 레이어가 있을 때만 갱신하도록 합니다.
+        naver.maps.Event.addListener(map, 'click', function (e) {
+            if (streetLayer.getMap()) {
+                var latlng = e.coord;
+
+                // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
+                pano.setPosition(latlng);
+            }
+        });
+    </script>
 </body>
+<script src='/src/hello.js'></script>
 </html>
