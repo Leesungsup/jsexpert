@@ -1,13 +1,40 @@
-var fs = require('fs');
-const helloworld = function () {
+require(['require'], function (slong,slat,elong,elat) {
     console.log("run");
-    var headers = {
-        'X-NCP-APIGW-API-KEY-ID': 'uzlzuhd2pa',
-        'X-NCP-APIGW-API-KEY': 'INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc'
-    };    
+    var id='uzlzuhd2pa';
+    var secret='INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc';
+    var url='https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start='+slong+','+slat+'&goal='+elong+','+elat+'&option=trafast';
+    console.log(url);
     var options = {
-        url: 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=127.1058342,37.359708&goal=129.075986,35.179470&option=trafast',
-        headers: headers
+        url: url,
+        headers: { 'X-NCP-APIGW-API-KEY-ID': id,
+        'X-NCP-APIGW-API-KEY': secret }
+    };
+    var request = require('request');
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+            var jsonData = JSON.parse(body);
+            var pathdata = new Array();
+            for (var i = 0; i < jsonData['route']['trafast'][0]['path'].length; i++) {
+                pathdata[i]=jsonData['route']['trafast'][0]['path'][i];
+            }
+            console.log(pathdata);
+            var path=JSON.stringify(pathdata);
+        }
+    }
+    request(options, callback);
+});
+var fs = require('fs');
+const helloworld = function (slong,slat,elong,elat) {
+    console.log("run");
+    var id='uzlzuhd2pa';
+    var secret='INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc';
+    var url='https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start='+slong+','+slat+'&goal='+elong+','+elat+'&option=trafast';
+    console.log(url);
+    var options = {
+        url: url,
+        headers: { 'X-NCP-APIGW-API-KEY-ID': id,
+        'X-NCP-APIGW-API-KEY': secret }
     };
     var request = require('request');
     function callback(error, response, body) {

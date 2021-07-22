@@ -13,18 +13,38 @@
         src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=YOUR_CLIENT_ID&submodules=panorama"></script>
     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
     <script src="/node_modules/requirejs/require.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div id="map" style="width:100%;height:400px;"></div>
     <div id="pano" style="width:100%;height:400px;"></div>
     <script>
-        const func = require(['fs']);
+        var xhr = new XMLHttpRequest();
+var url = 'http://api.data.go.kr/openapi/tn_pubr_public_free_mlsv_api'; /*URL*/
+var queryParams = '?' + encodeURIComponent('ServiceKey') + '='+'VEAAk7E%2BAFl%2BebvIIp8rYPoQ0%2BdqaJRy4NRnWbo2wju5lvbYzuhlA55ZDydaRcdaViJftJwWTQiFtjtdS2Kkiw%3D%3D'; /*Service Key*/
+queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('0'); /**/
+queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100'); /**/
+queryParams += '&' + encodeURIComponent('type') + '=' + encodeURIComponent('xml'); /**/
+xhr.open('GET', url + queryParams);
+xhr.onreadystatechange = function () {
+    if (this.readyState == 4) {
+        var da=JSON.stringify(this.getAllResponseHeaders());
+        colsole.log(da);
+        alert('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
+    }
+};
+xhr.send("success");
         var HOME_PATH = window.HOME_PATH || '.';
         console.log(HOME_PATH);
-        var lat = 37.3595704;
-        var long = 127.105399;
-        var position = new naver.maps.LatLng(lat, long);
+        var slat = 37.3595704;
+        var slong = 127.105399;
+        var elat=37.2762087;
+        var elong= 127.0808982;
+        var position = new naver.maps.LatLng(slat, slong);
         var polylinePath = [
             new naver.maps.LatLng(37.4526437, 126.49236),
             new naver.maps.LatLng(37.4768068, 126.4847975),
@@ -180,5 +200,5 @@
         });
     </script>
 </body>
-<script src='/src/hello.js'></script>
+<script src='/src/naverAPI.js'></script>
 </html>
