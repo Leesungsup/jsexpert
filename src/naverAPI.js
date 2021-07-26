@@ -1,3 +1,4 @@
+//import fs from 'fs';
 require(['require'], function (slong,slat,elong,elat) {
     console.log("run");
     var id='uzlzuhd2pa';
@@ -24,8 +25,8 @@ require(['require'], function (slong,slat,elong,elat) {
     }
     request(options, callback);
 });
-var fs = require('fs');
 const helloworld = function (slong,slat,elong,elat) {
+    var fs = require(['../node_modules/requirejs/require.js']);
     console.log("run");
     var id='uzlzuhd2pa';
     var secret='INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc';
@@ -36,7 +37,7 @@ const helloworld = function (slong,slat,elong,elat) {
         headers: { 'X-NCP-APIGW-API-KEY-ID': id,
         'X-NCP-APIGW-API-KEY': secret }
     };
-    var request = require('request');
+    var request = require(['../node_modules/request/request.js']);
     function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
             //console.log(body);
@@ -56,7 +57,7 @@ const helloworld = function (slong,slat,elong,elat) {
     }
     request(options, callback);
 }
-exports.helloworld = helloworld;
+export {helloworld};
 //require('dotenv').config({ path: "/home/ubuntu/backEnd/nodejs/naver_map/map/.env"});
 /*let naverModule = [
     //[0] gecode
