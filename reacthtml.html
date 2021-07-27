@@ -10,9 +10,10 @@
     <script type="text/javascript"
         src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uzlzuhd2pa&submodules=panorama"></script>
     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
-    <script type='module' src="/node_modules/requirejs/require.js"></script>
+    <!--<script type='module' src="/node_modules/requirejs/require.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <!--<script type="module" src="module.js"></script>-->
 </head>
 
 <body>
@@ -35,7 +36,7 @@
             disableKineticPan: false,
             mapTypeControl: true
         });
-        
+
         var HOME_PATH = window.HOME_PATH || '.';
         console.log(HOME_PATH);
         var slat = 37.3595704;
@@ -106,7 +107,7 @@
                 }
             }
         });
-        
+
         var polyline = new naver.maps.Polyline({
             path: arr,      //선 위치 변수배열
             strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
@@ -118,8 +119,38 @@
             position: new naver.maps.LatLng(37.3595704, 127.105399),
             map: map
         });
+        var id = 'uzlzuhd2pa';
+        var secret = 'INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc';
+        var url = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=' + slong + ',' + slat + '&goal=' + elong + ',' + elat + '&option=trafast';
+        console.log(url);
+        var options = {
+            url: url,
+            headers: {
+                'X-NCP-APIGW-API-KEY-ID': id,
+                'X-NCP-APIGW-API-KEY': secret
+            }
+        };
+        const request = require(['../node_modules/request/request.js']);
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                //console.log(body);
+                var jsonData = JSON.parse(body);
+                var pathdata = new Array();
+                for (var i = 0; i < jsonData['route']['trafast'][0]['path'].length; i++) {
+                    pathdata[i] = jsonData['route']['trafast'][0]['path'][i];
+                }
+                console.log(pathdata);
+                var path = JSON.stringify(pathdata);
+                /*fs.writeFile("test.json", path, function(err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });*/
+            }
+        }
+        request(options, callback);
     </script>
 </body>
-<script type='module' src='/src/hello.js'></script>
+<!--<script src='/src/hello.js'></script>-->
 
 </html>

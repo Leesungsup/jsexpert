@@ -1,3 +1,8 @@
+//import http from 'http';
+//import fs from 'fs';
+//import express from 'express';
+//import path from 'path';
+//const __dirname = path.resolve();
 var http = require('http'); // 서버 구동을 위한 node 내장 모듈 불러옴
 var express=require('express');
 var app=express();
