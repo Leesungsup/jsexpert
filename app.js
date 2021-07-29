@@ -4,16 +4,22 @@
 //import path from 'path';
 //const __dirname = path.resolve();
 var http = require('http'); // 서버 구동을 위한 node 내장 모듈 불러옴
-var express=require('express');
-var app=express();
+var express = require('express');
+var app = express();
 var fs = require('fs'); //파일 읽기, 쓰기를 위한 node 내장 모듈 불러옴
-app.use('/src',express.static(__dirname+"/src"));
-app.use('/node_modules',express.static(__dirname+"/node_modules"));
-var server=http.createServer(app).listen(3003,function(){console.log("Server Running.")});
-
-app.get('/',function(req,res){
-  fs.readFile('reacthtml.html',function(error,data){
-    res.writeHead(200,{'Content-Type':'text/html'});
+var func = require('./src/naverAPI.js');
+app.use('/src', express.static(__dirname + "/src"));
+app.use('/node_modules', express.static(__dirname + "/node_modules"));
+var server = http.createServer(app).listen(3003, function () { console.log("Server Running.") });
+var slat = 37.3595704;
+var slong = 127.105399;
+var elat = 37.2762087;
+var elong = 127.0808982;
+var data1 = func.helloworld(slong, slat, elong, elat);
+app.get('/', function (req, res) {
+  console.log(data1);
+  fs.readFile('reacthtml.html', function (error, data) {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(data);
   });
 });
@@ -33,7 +39,7 @@ function onRequest(request,response){
     fs.createReadStream("./naverAPI.js");
     fs.createReadStream("./reacthtml.html").pipe(response); //html 웹페이지 respond
   }else{
-    //html 파일이 존재하지 않을시에는 
+    //html 파일이 존재하지 않을시에는
     send404Message(response);
   }
 }

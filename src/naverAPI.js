@@ -1,14 +1,20 @@
 //import fs from '../node_modules/requirejs/require.js';
 //import request from '../node_modules/request/request.js'
+exports.ho = function(){
+    var id = 'uzlzuhd2pa';
+    var secret = 'INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc';
+    var url="https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=127.1058342,37.359708&goal=129.075986,35.179470&option=trafast";
+    var options = {
+        headers: {
+            'X-NCP-APIGW-API-KEY-ID': id,
+            'X-NCP-APIGW-API-KEY': secret
+        }
+    };
+    fetch(url, options).then((response) => console.log("response:", response));
+}
 function helloworld(slong, slat, elong, elat) {
     var id = 'uzlzuhd2pa';
     var secret = 'INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc';
-    fetch("https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=127.1058342,37.359708&goal=129.075986,35.179470&option=trafast", {
-        headers: {
-            "X-Ncp-Apigw-Api-Key": id,
-            "X-Ncp-Apigw-Api-Key-Id": secret
-        }
-    });
     console.log("run");
     var url = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=' + slong + ',' + slat + '&goal=' + elong + ',' + elat + '&option=trafast';
     console.log(url);
@@ -20,11 +26,11 @@ function helloworld(slong, slat, elong, elat) {
         }
     };
     const request = require('request');
+    var pathdata = new Array();
     function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
             //console.log(body);
             var jsonData = JSON.parse(body);
-            var pathdata = new Array();
             for (var i = 0; i < jsonData['route']['trafast'][0]['path'].length; i++) {
                 pathdata[i] = jsonData['route']['trafast'][0]['path'][i];
             }
@@ -38,6 +44,7 @@ function helloworld(slong, slat, elong, elat) {
         }
     }
     request(options, callback);
+    return pathdata;
 }
 exports.helloworld = helloworld;
 //export {helloworld};
