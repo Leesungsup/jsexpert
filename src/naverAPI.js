@@ -1,9 +1,9 @@
 //import fs from '../node_modules/requirejs/require.js';
 //import request from '../node_modules/request/request.js'
-exports.ho = function(){
+function ho() {
     var id = 'uzlzuhd2pa';
     var secret = 'INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc';
-    var url="https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=127.1058342,37.359708&goal=129.075986,35.179470&option=trafast";
+    var url = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=127.1058342,37.359708&goal=129.075986,35.179470&option=trafast";
     var options = {
         headers: {
             'X-NCP-APIGW-API-KEY-ID': id,
@@ -12,7 +12,25 @@ exports.ho = function(){
     };
     fetch(url, options).then((response) => console.log("response:", response));
 }
-function helloworld(slong, slat, elong, elat) {
+function fooddata() {
+    var request = require('request');
+    for (let number = 0; number < 16; number++) {
+        var url = 'http://api.data.go.kr/openapi/tn_pubr_public_free_mlsv_api';
+        var queryParams = '?' + encodeURIComponent('ServiceKey') + '=VEAAk7E%2BAFl%2BebvIIp8rYPoQ0%2BdqaJRy4NRnWbo2wju5lvbYzuhlA55ZDydaRcdaViJftJwWTQiFtjtdS2Kkiw%3D%3D'; /* Service Key*/
+        queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('0'); /* */
+        queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100'); /* */
+        queryParams += '&' + encodeURIComponent('type') + '=' + encodeURIComponent('json'); /* */
+        request({
+            url: url + queryParams,
+            method: 'GET'
+        }, function (error, response, body) {
+            //console.log('Status', response.statusCode);
+            //console.log('Headers', JSON.stringify(response.headers));
+            console.log('Reponse received', body);
+        });
+    }
+}
+function driving(slong, slat, elong, elat) {
     var id = 'uzlzuhd2pa';
     var secret = 'INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc';
     console.log("run");
@@ -34,7 +52,7 @@ function helloworld(slong, slat, elong, elat) {
             for (var i = 0; i < jsonData['route']['trafast'][0]['path'].length; i++) {
                 pathdata[i] = jsonData['route']['trafast'][0]['path'][i];
             }
-            console.log(pathdata);
+            //console.log(pathdata);
             var path = JSON.stringify(pathdata);
             /*fs.writeFile("test.json", path, function(err) {
                 if (err) {
@@ -46,7 +64,7 @@ function helloworld(slong, slat, elong, elat) {
     request(options, callback);
     return pathdata;
 }
-exports.helloworld = helloworld;
+module.exports = { ho, fooddata, driving };
 //export {helloworld};
 //require('dotenv').config({ path: "/home/ubuntu/backEnd/nodejs/naver_map/map/.env"});
 /*let naverModule = [

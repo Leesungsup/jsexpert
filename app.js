@@ -15,9 +15,10 @@ var slat = 37.3595704;
 var slong = 127.105399;
 var elat = 37.2762087;
 var elong = 127.0808982;
-var data1 = func.helloworld(slong, slat, elong, elat);
+var drivingdata = func.driving(slong, slat, elong, elat);
+var fooddata=func.fooddata();
 app.get('/', function (req, res) {
-  console.log(data1);
+  console.log(drivingdata);
   fs.readFile('reacthtml.html', function (error, data) {
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(data);
